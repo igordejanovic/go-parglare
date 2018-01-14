@@ -39,6 +39,7 @@ func NewPAP(symbol GrammarSymbol, rhs []GrammarSymbol,
 	p := NewP(symbol, rhs)
 	p.Assoc = assoc
 	p.Prior = prior
+	return p
 }
 
 // Assignment represents assignment from the grammar.

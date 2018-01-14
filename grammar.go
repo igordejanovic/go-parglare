@@ -34,7 +34,7 @@ var SpecialSymbolNames = [...]string{"KEYWORD", "LAYOUT"}
 type ActionFunc func(context Context, subresults []interface{}) (interface{}, error)
 
 type Grammar struct {
-	Productions  []Production
+	Productions  []*Production
 	RootSymbol   GrammarSymbol
 	Terminals    map[string]Terminal
 	NonTerminals map[string]NonTerminal
@@ -138,6 +138,10 @@ func (nt *NonTerminal) GrammarAction() ActionFunc {
 
 }
 
+func (g *Grammar) initGrammar() {
+
+}
+
 func newNT(name string) *NonTerminal {
 	return &NonTerminal{grammarSymbol{name, "", nil, nil}}
 }
@@ -167,6 +171,13 @@ func GrammarFromString(gstr string) *Grammar {
 func GrammarFromFile(gfile string) *Grammar {
 	g := new(Grammar)
 	return g
+}
+
+func grammarParser() Parser {
+	g := &Grammar{Productions: pgProductions, RootSymbol: PGGrammar}
+	g.initGrammar()
+	p := NewLRParser(g)
+	return p
 }
 
 // Parglare grammar symbols
